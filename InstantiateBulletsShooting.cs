@@ -8,7 +8,6 @@ public class InstantiateBulletsShooting : MonoBehaviour
 
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private float _timeWaitShooting;
-    [SerializeField] private GameObject _prefab;
     [SerealizeField] private Transform _objectToShoot;
 
     private void Start() 

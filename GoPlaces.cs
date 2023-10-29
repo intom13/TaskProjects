@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoPlaces : MonoBehaviour
+public class RelocateToPoint : MonoBehaviour
 {
     [SerialiseField] private float _speed;
     [SerializeField] private int _numberInArray;
@@ -13,8 +13,8 @@ public class GoPlaces : MonoBehaviour
     { 
         _arrayPlaces = new Transform[_allPlacespoint.childCount];
 
-        for (int abcd = 0; abcd < _allPlacespoint.childCount; abcd++)
-            _arrayPlaces[abcd] = _allPlacespoint.GetChild(abcd).GetComponent<Transform>();
+        for (int i = 0; i < _allPlacespoint.childCount; i++)
+            _arrayPlaces[i] = _allPlacespoint.GetChild(i);
     }
     
     private void Update()
@@ -23,10 +23,10 @@ public class GoPlaces : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, PointByNumberInArray.position, _speed * Time.deltaTime);
 
         if (transform.position == PointByNumberInArray.position)
-            NextPlaceTakerLogic();
+            Relocate();
     }
 
-    private Vector3 NextPlaceTakerLogic()
+    private Vector3 Relocate()
     {
         _numberInArray++;
 
