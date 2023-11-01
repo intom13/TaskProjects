@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class RelocateToPoint : MonoBehaviour
 {
-    [SerialiseField] private float _speed;
+    [SerializeField] private float _speed;
     [SerializeField] private int _numberInArray;
     [SerializeField] private Transform _allPlacespoint;
     [SerializeField] private Transform[] _arrayPlaces;
 
     private void Start()
-    { 
+    {
         _arrayPlaces = new Transform[_allPlacespoint.childCount];
 
         for (int i = 0; i < _allPlacespoint.childCount; i++)
             _arrayPlaces[i] = _allPlacespoint.GetChild(i);
     }
-    
+
     private void Update()
     {
-        var PointByNumberInArray = _arrayPlaces[_numberInArray];
-        transform.position = Vector3.MoveTowards(transform.position, PointByNumberInArray.position, _speed * Time.deltaTime);
+        var pointByNumberInArray = _arrayPlaces[_numberInArray];
+        transform.position = Vector3.MoveTowards(transform.position, pointByNumberInArray.position, _speed * Time.deltaTime);
 
-        if (transform.position == PointByNumberInArray.position)
+        if (transform.position == pointByNumberInArray.position)
             Relocate();
     }
 
@@ -33,9 +33,9 @@ public class RelocateToPoint : MonoBehaviour
         if (_numberInArray == _arrayPlaces.Length)
             _numberInArray = 0;
 
-        var ThisPointVector = _arrayPlaces[_numberInArray].transform.position;
-        transform.forward = ThisPointVector - transform.position;
+        var thisPointVector = _arrayPlaces[_numberInArray].transform.position;
+        transform.forward = thisPointVector - transform.position;
 
-        return ThisPointVector;
+        return thisPointVector;
     }
 }

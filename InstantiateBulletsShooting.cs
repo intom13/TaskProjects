@@ -5,29 +5,31 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class InstantiateBulletsShooting : MonoBehaviour
 {
-
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private float _timeWaitShooting;
-    [SerealizeField] private Transform _objectToShoot;
+    [SerializeField] private Transform _objectToShoot;
+    [SerializeField] private GameObject _prefab;
 
-    private void Start() 
+    private void Start()
     {
         StartCoroutine(_shootingWorker());
     }
 
     private IEnumerator _shootingWorker()
     {
-        bool IsWork = enabled;
-    
+        bool isWork = enabled;
+
         while (isWork)
         {
-             var Vector3direction = (_objectToShoot.position - transform.position).normalized;
-             var NewBullet = Instantiate(_prefab, transform.position + Vector3direction, Quaternion.identity);
+            var vector3direction = (_objectToShoot.position - transform.position).normalized;
+            var newBullet = Instantiate(_prefab, transform.position + vector3direction, Quaternion.identity);
 
-             NewBullet.GetComponent<Rigidbody>().transform.up = Vector3direction;
-             NewBullet.GetComponent<Rigidbody>().velocity = Vector3direction * _bulletSpeed;
+            Rigidbody2D newBulletRb = GetComponent<Rigidbody2D>();
 
-             yield return new WaitForSeconds(_timeWaitShooting);
+            newBulletRb.transform.up = vector3direction;
+            newBulletRb.velocity = vector3direction * _bulletSpeed;
+
+            yield return new WaitForSeconds(_timeWaitShooting);
         }
     }
 }
