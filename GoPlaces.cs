@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RelocateToPoint : MonoBehaviour
+public class RelocaterToTarget : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private int _numberInArray;
+
     [SerializeField] private Transform _allPlacespoint;
     [SerializeField] private Transform[] _arrayPlaces;
 
@@ -23,10 +22,10 @@ public class RelocateToPoint : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, pointByNumberInArray.position, _speed * Time.deltaTime);
 
         if (transform.position == pointByNumberInArray.position)
-            Relocate();
+            Relocating();
     }
 
-    private Vector3 Relocate()
+    private Vector3 Relocating()
     {
         _numberInArray++;
 

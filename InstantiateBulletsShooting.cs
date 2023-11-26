@@ -1,35 +1,36 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class InstantiateBulletsShooting : MonoBehaviour
+public class BulletShootingCreator : MonoBehaviour
 {
     [SerializeField] private float _bulletSpeed;
-    [SerializeField] private float _timeWaitShooting;
+    [SerializeField] private float _bulletCooldown;
+
     [SerializeField] private Transform _objectToShoot;
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private GameObject _bulletTemplate;
+    [SerializeField] private Rigidbody2D _newBulletRigidbody;
 
     private void Start()
     {
-        StartCoroutine(_shootingWorker());
+        WaitForSeconds _rechargeWaitingTime = new WaitForSeconds(_bulletCooldown);
+
+        var shooting = StartCoroutine(Shooting(_rechargeWaitingTime));
     }
 
-    private IEnumerator _shootingWorker()
+    private IEnumerator Shooting(WaitForSeconds rechargeWaitingTime)
     {
         bool isWork = enabled;
 
         while (isWork)
         {
-            var vector3direction = (_objectToShoot.position - transform.position).normalized;
-            var newBullet = Instantiate(_prefab, transform.position + vector3direction, Quaternion.identity);
+            var direction = (_objectToShoot.position - transform.position).normalized;
+            var newBullet = Instantiate(_bulletTemplate, transform.position + direction, Quaternion.identity);
 
-            Rigidbody2D newBulletRb = GetComponent<Rigidbody2D>();
+            _newBulletRigidbody.transform.up = direction;
+            _newBulletRigidbody.velocity = direction * _bulletSpeed;
 
-            newBulletRb.transform.up = vector3direction;
-            newBulletRb.velocity = vector3direction * _bulletSpeed;
-
-            yield return new WaitForSeconds(_timeWaitShooting);
+            yield return rechargeWaitingTime;
         }
     }
 }
